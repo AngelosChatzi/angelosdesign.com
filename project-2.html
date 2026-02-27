@@ -1,13 +1,717 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RCC – Angelos Chatziparasidis</title>
+  <title>IPÖ 2.0 – Individual Patient Overview · Angelos Chatziparasidis</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ─── CASE STUDY LAYOUT ─── */
+
+    .cs-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 4rem;
+    }
+
+    /* ─── HERO ─── */
+    .cs-hero {
+      padding: 9rem 0 6rem;
+      background: var(--cream);
+      border-bottom: 1px solid var(--blush);
+    }
+
+    .cs-breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 3rem;
+      list-style: none;
+    }
+
+    .cs-breadcrumb a {
+      color: var(--text-light);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .cs-breadcrumb a:hover { color: var(--warm-brown); }
+
+    .cs-breadcrumb-sep {
+      color: var(--blush);
+    }
+
+    .cs-hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 5rem;
+      align-items: end;
+    }
+
+    .cs-kicker {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+
+    .cs-kicker::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--sage);
+    }
+
+    .cs-hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      font-weight: 300;
+      line-height: 1.05;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+
+    .cs-hero-title em {
+      font-style: italic;
+      color: var(--warm-brown);
+    }
+
+    .cs-hero-subtitle {
+      font-size: 1.05rem;
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--text-light);
+      max-width: 600px;
+      margin-bottom: 2rem;
+    }
+
+    .cs-tags {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .cs-hero-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+      padding-bottom: 0.25rem;
+    }
+
+    .cs-meta-label {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 0.35rem;
+    }
+
+    .cs-meta-value {
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    /* ─── SECTION BASE ─── */
+    .cs-section {
+      padding: 6rem 0;
+      border-bottom: 1px solid var(--blush);
+    }
+
+    .cs-section--white { background: white; }
+    .cs-section--cream { background: var(--cream); }
+
+    .cs-section--dark {
+      background: var(--text);
+      border-bottom: none;
+    }
+
+    .cs-section--warm {
+      background: #C0784A;
+      border-bottom: none;
+    }
+
+    .cs-section-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+
+    .cs-section-label::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--sage);
+    }
+
+    .cs-section--dark .cs-section-label { color: var(--mint); }
+    .cs-section--dark .cs-section-label::before { background: var(--mint); }
+
+    .cs-section--warm .cs-section-label { color: rgba(245,239,230,0.85); }
+    .cs-section--warm .cs-section-label::before { background: rgba(245,239,230,0.5); }
+
+    .cs-h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+
+    .cs-h2 em { font-style: italic; color: var(--warm-brown); }
+    .cs-section--dark .cs-h2 { color: var(--cream); }
+    .cs-section--warm .cs-h2 { color: #fff; }
+    .cs-section--warm .cs-h2 em { color: rgba(245,239,230,0.9); }
+
+    .cs-body-text {
+      font-size: 0.98rem;
+      font-weight: 300;
+      line-height: 1.85;
+      color: var(--text-light);
+    }
+
+    .cs-body-text p + p { margin-top: 1.1rem; }
+
+    .cs-section--dark .cs-body-text { color: rgba(245,239,230,0.7); }
+    .cs-section--warm .cs-body-text { color: rgba(255,255,255,0.82); }
+
+    /* Two-column intro */
+    .cs-intro-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    /* ─── CHALLENGE ─── */
+    .challenge-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+      margin-top: 3.5rem;
+    }
+
+    .challenge-item {
+      background: var(--cream);
+      border-radius: 12px;
+      padding: 1.75rem;
+      border-left: 3px solid var(--blush);
+    }
+
+    .cs-section--white .challenge-item {
+      background: #fafaf8;
+    }
+
+    .challenge-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 300;
+      color: var(--blush);
+      line-height: 1;
+      margin-bottom: 0.75rem;
+    }
+
+    .challenge-item h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    .challenge-item p {
+      font-size: 0.87rem;
+      line-height: 1.7;
+      color: var(--text-light);
+      font-weight: 300;
+    }
+
+    /* ─── PRIORITY MATRIX ─── */
+    .matrix-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin-top: 3rem;
+      border-radius: 12px;
+      border: 1px solid var(--blush);
+    }
+
+    .priority-matrix {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 520px;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .cs-section--white .priority-matrix {
+      background: var(--cream);
+    }
+
+    .priority-matrix thead tr {
+      background: rgba(232,201,184,0.15);
+    }
+
+    .priority-matrix th {
+      padding: 1.25rem 1.5rem;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      border-bottom: 1px solid var(--blush);
+    }
+
+    .priority-matrix th:first-child { text-align: left; }
+
+    .priority-matrix td {
+      padding: 1.1rem 1.5rem;
+      border-bottom: 1px solid rgba(232,201,184,0.35);
+      text-align: center;
+    }
+
+    .priority-matrix td:first-child {
+      text-align: left;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-light);
+    }
+
+    .priority-matrix tr:last-child td { border-bottom: none; }
+
+    .role-th-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+      text-align: center;
+    }
+
+    .role-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .role-avatar--doctor  { background: rgba(201,184,212,0.3); color: #7a5f8a; }
+    .role-avatar--nurse   { background: rgba(168,197,184,0.3); color: var(--sage); }
+    .role-avatar--admin   { background: rgba(232,201,184,0.4); color: var(--warm-brown); }
+
+    .priority-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.3rem 0.85rem;
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 400;
+      white-space: nowrap;
+    }
+
+    .priority-pill--overview {
+      background: rgba(201,184,212,0.18);
+      color: #7a5f8a;
+      border: 1px solid rgba(201,184,212,0.5);
+    }
+
+    .priority-pill--navigation {
+      background: rgba(168,197,184,0.18);
+      color: #5f8a72;
+      border: 1px solid rgba(168,197,184,0.5);
+    }
+
+    .priority-pill--registration {
+      background: rgba(232,201,184,0.25);
+      color: var(--warm-brown);
+      border: 1px solid rgba(232,201,184,0.65);
+    }
+
+    .priority-rank {
+      font-size: 0.65rem;
+      font-weight: 600;
+      opacity: 0.65;
+    }
+
+    .matrix-note {
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      color: var(--text-light);
+      font-weight: 300;
+      font-style: italic;
+    }
+
+    /* ─── ROLE CARDS ─── */
+    .role-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+    }
+
+    .role-card {
+      border-radius: 16px;
+      padding: 2rem;
+      border: 1px solid var(--blush);
+      background: white;
+    }
+
+    .cs-section--white .role-card { background: var(--cream); }
+
+    .role-card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .role-card-icon--nurse  { background: rgba(168,197,184,0.25); color: #5f8a72; }
+    .role-card-icon--doctor { background: rgba(201,184,212,0.25); color: #7a5f8a; }
+    .role-card-icon--admin  { background: rgba(232,201,184,0.35); color: var(--warm-brown); }
+
+    .role-card-role {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 0.35rem;
+    }
+
+    .role-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 1.1rem;
+    }
+
+    .role-needs {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .role-needs li {
+      font-size: 0.87rem;
+      font-weight: 300;
+      color: var(--text-light);
+      line-height: 1.55;
+      padding-left: 1rem;
+      position: relative;
+    }
+
+    .role-needs li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--sage);
+    }
+
+    /* ─── IMAGE CONTAINERS ─── */
+    .cs-figure {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--blush);
+      background: white;
+      margin-top: 2rem;
+    }
+
+    .cs-section--white .cs-figure { background: var(--cream); }
+
+    .cs-figure img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .cs-figure figcaption {
+      padding: 0.85rem 1.5rem;
+      font-size: 0.78rem;
+      color: var(--text-light);
+      font-weight: 300;
+      border-top: 1px solid var(--blush);
+      font-style: italic;
+    }
+
+    .cs-figure-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .cs-figure-grid .cs-figure { margin-top: 0; }
+
+    /* ─── VARIABLE FLOW ─── */
+    .variable-flow {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin: 2.5rem 0 1.5rem;
+    }
+
+    .variable-flow-step {
+      background: white;
+      border: 1px solid var(--blush);
+      border-radius: 8px;
+      padding: 0.55rem 1.2rem;
+      font-size: 0.82rem;
+      font-weight: 400;
+      color: var(--text);
+    }
+
+    .cs-section--white .variable-flow-step { background: var(--cream); }
+
+    .variable-flow-arrow {
+      color: var(--sage);
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    /* ─── WIREFRAME PROGRESSION ─── */
+    .progression-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+    }
+
+    .progression-step-num {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 0.6rem;
+    }
+
+    .progression-step-img {
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--blush);
+      background: white;
+      aspect-ratio: 4 / 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cs-section--white .progression-step-img { background: var(--cream); }
+
+    .progression-step-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .progression-step-label {
+      margin-top: 0.75rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: var(--text);
+    }
+
+    .progression-step-desc {
+      margin-top: 0.3rem;
+      font-size: 0.8rem;
+      font-weight: 300;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    /* ─── IMPACT ─── */
+    .impact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+    }
+
+    .impact-item {
+      padding: 2rem;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .impact-item-marker {
+      width: 32px;
+      height: 2px;
+      background: rgba(245,239,230,0.6);
+      margin-bottom: 1.25rem;
+      border-radius: 2px;
+    }
+
+    .impact-item h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: #fff;
+      margin-bottom: 0.6rem;
+    }
+
+    .impact-item p {
+      font-size: 0.87rem;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.75);
+      font-weight: 300;
+    }
+
+    /* ─── PAGE FOOTER NAV ─── */
+    .cs-page-footer {
+      padding: 3rem 0;
+      background: var(--cream);
+      border-top: 1px solid var(--blush);
+    }
+
+    .cs-page-footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cs-back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--warm-brown);
+      text-decoration: none;
+      transition: gap 0.2s;
+    }
+
+    .cs-back-link::before { content: '←'; }
+    .cs-back-link:hover { gap: 0.8rem; }
+
+    /* ─── DESIGN APPROACH STEPS ─── */
+    .approach-steps {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1.25rem;
+      margin-top: 3.5rem;
+    }
+
+    .approach-step {
+      padding: 1.75rem 1.5rem;
+      border-radius: 12px;
+      background: var(--cream);
+      border-top: 2px solid var(--blush);
+    }
+
+    .approach-step-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 300;
+      color: var(--blush);
+      line-height: 1;
+      margin-bottom: 0.85rem;
+    }
+
+    .approach-step h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+    }
+
+    .approach-step p {
+      font-size: 0.83rem;
+      line-height: 1.7;
+      color: var(--text-light);
+      font-weight: 300;
+    }
+
+    @media (max-width: 1000px) {
+      .approach-steps { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 700px) {
+      .approach-steps { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 480px) {
+      .approach-steps { grid-template-columns: 1fr; }
+    }
+
+    /* ─── DIVIDER ─── */
+    .cs-divider {
+      height: 1px;
+      background: var(--blush);
+      margin: 3rem 0;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1000px) {
+      .progression-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 900px) {
+      .cs-container { padding: 0 2rem; }
+      .cs-hero { padding: 8rem 0 4rem; }
+      .cs-hero-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .cs-hero-meta { flex-direction: row; flex-wrap: wrap; gap: 1.5rem; }
+      .cs-intro-split { grid-template-columns: 1fr; gap: 2rem; }
+      .role-cards { grid-template-columns: repeat(2, 1fr); }
+      .impact-grid { grid-template-columns: repeat(2, 1fr); }
+      .cs-section { padding: 4rem 0; }
+    }
+
+    @media (max-width: 700px) {
+      .challenge-grid { grid-template-columns: 1fr; }
+      .cs-figure-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .role-cards { grid-template-columns: 1fr; }
+      .impact-grid { grid-template-columns: 1fr; }
+      .progression-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
+
   <nav>
     <a href="index.html" class="nav-logo">Angelos Chatziparasidis</a>
     <ul class="nav-links">
@@ -18,30 +722,673 @@
     </ul>
   </nav>
 
-  <div class="project-page">
-    <!-- Decorative blobs -->
-    <div class="blob blob-1" style="opacity:0.25;z-index:0;"></div>
-    <div class="blob blob-3" style="opacity:0.18;z-index:0;"></div>
+  <main>
 
-    <div style="position:relative;z-index:1;">
-      <div style="display:flex;justify-content:center;margin-bottom:2rem;">
-        <img src="assets/images/Project 2.png" alt="Regionalt Cancercentrum logo" style="max-height:70px;max-width:220px;object-fit:contain;" />
+    <!-- ═══════════════════════════════════════
+         HERO
+    ═══════════════════════════════════════ -->
+    <section class="cs-hero">
+      <div class="cs-container">
+
+        <nav class="cs-breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="cs-breadcrumb-sep">/</span>
+          <a href="index.html#projects">Projects</a>
+          <span class="cs-breadcrumb-sep">/</span>
+          <span>IPÖ 2.0</span>
+        </nav>
+
+        <div class="cs-hero-grid">
+
+          <div class="cs-hero-left">
+            <div style="margin-bottom:2rem;">
+              <img src="assets/images/Project 2.png" alt="Regionalt Cancercentrum logotype" style="max-height:96px;max-width:300px;object-fit:contain;" />
+            </div>
+            <div class="cs-kicker">Healthcare UX · Case Study</div>
+            <h1 class="cs-hero-title">
+              Individual Patient<br /><em>Overview 2.0</em>
+            </h1>
+            <p class="cs-hero-subtitle">
+              Redesigning a clinical data platform used across Swedish cancer care — making it diagnosis-independent, role-aware, and scalable without adding cognitive overhead.
+            </p>
+            <div class="cs-tags">
+              <span class="tag">UX Research</span>
+              <span class="tag">Service Design</span>
+              <span class="tag">Effect Mapping</span>
+              <span class="tag">Flow Mapping</span>
+              <span class="tag">Wireframing</span>
+              <span class="tag">Prototyping</span>
+              <span class="tag">User Testing</span>
+            </div>
+          </div>
+
+          <div class="cs-hero-meta">
+            <div>
+              <div class="cs-meta-label">My Role</div>
+              <div class="cs-meta-value">UX Designer</div>
+            </div>
+            <div>
+              <div class="cs-meta-label">Organisation</div>
+              <div class="cs-meta-value">Regionalt Cancercentrum</div>
+            </div>
+            <div>
+              <div class="cs-meta-label">Collaborators</div>
+              <div class="cs-meta-value">Product owners · Developers · Healthcare professionals · Clinical coordinators</div>
+            </div>
+            <div>
+              <div class="cs-meta-label">Tools</div>
+              <div class="cs-meta-value">Figma · Miro · FigJam</div>
+            </div>
+          </div>
+
+        </div>
       </div>
+    </section>
 
-      <div class="wip-badge">Work in progress</div>
 
-      <h1>RCC<br /><em style="font-size:0.65em;font-weight:300;">Regionalt Cancercentrum</em></h1>
+    <!-- ═══════════════════════════════════════
+         01 — DESIGN APPROACH
+    ═══════════════════════════════════════ -->
+    <section class="cs-section cs-section--white">
+      <div class="cs-container">
 
-      <div class="project-tags" style="justify-content:center;margin-bottom:1.5rem;">
-        <span class="tag">UX Research</span><span class="tag">Service Design</span>
+        <div class="cs-intro-split">
+          <div>
+            <div class="cs-section-label">01 — Design Approach</div>
+            <h2 class="cs-h2">A research-first approach built for <em>clinical complexity</em></h2>
+          </div>
+          <div class="cs-body-text">
+            <p>
+              This project demanded a methodology that could handle two distinct layers of complexity simultaneously: the human layer — three professional roles with genuinely different needs — and the technical layer — a variable-driven backend that had to be fully understood before a single screen could be designed.
+            </p>
+            <p>
+              Rather than moving straight to wireframes, the process started with alignment and comprehension. Every design decision that followed was traceable back to either a user need, a flow, or a variable in the underlying data structure.
+            </p>
+          </div>
+        </div>
+
+        <div class="approach-steps">
+
+          <div class="approach-step">
+            <div class="approach-step-num">01</div>
+            <h4>Stakeholder Alignment</h4>
+            <p>Effect mapping before any design work — establishing a shared understanding of desired outcomes across clinical, administrative, and operational roles.</p>
+          </div>
+
+          <div class="approach-step">
+            <div class="approach-step-num">02</div>
+            <h4>Role-Based Research</h4>
+            <p>Each professional role was mapped independently — their workflows, priorities, and pain points — before designing for all three simultaneously.</p>
+          </div>
+
+          <div class="approach-step">
+            <div class="approach-step-num">03</div>
+            <h4>System Comprehension</h4>
+            <p>Deep analysis of the backend variable system before wireframing anything. The interface could only be designed once the underlying data logic was fully understood.</p>
+          </div>
+
+          <div class="approach-step">
+            <div class="approach-step-num">04</div>
+            <h4>Progressive Fidelity</h4>
+            <p>Structural flows → wireframes → high-fidelity prototype → production. Each stage validated something specific before the next began.</p>
+          </div>
+
+          <div class="approach-step">
+            <div class="approach-step-num">05</div>
+            <h4>Role-Structured Testing</h4>
+            <p>User testing sessions built around the priority matrix — surfacing friction specific to each role rather than testing for a generic user.</p>
+          </div>
+
+        </div>
+
       </div>
+    </section>
 
-      <p>Improving digital touchpoints for healthcare professionals and patients across the cancer care journey.</p>
-      <p style="font-size:0.88rem;color:var(--sage);margin-bottom:2.5rem;">
-        Full case study coming soon. Check back later!
-      </p>
 
-      <div style="display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;"><a href="index.html#projects" class="back-link">Back to projects</a></div>
+    <!-- ═══════════════════════════════════════
+         02 — THE CHALLENGE
+    ═══════════════════════════════════════ -->
+    <section class="cs-section cs-section--cream">
+      <div class="cs-container">
+
+        <div class="cs-intro-split">
+          <div>
+            <div class="cs-section-label">02 — The Challenge</div>
+            <h2 class="cs-h2">A system built for one diagnosis at a time — in a world that needed all of them</h2>
+          </div>
+          <div class="cs-body-text">
+            <p>
+              IPÖ 1.0 was designed diagnosis by diagnosis. Each cancer type had its own separate module — which meant every time a new diagnosis was added, the interface fractured further. For clinical professionals managing patients across multiple diagnoses, this was not just inconvenient. It was cognitively expensive and operationally risky.
+            </p>
+            <p>
+              Navigation was inconsistent. Data entry was repetitive. Roles as different as nurses, doctors, and administrators were all funnelled through the same interface with no awareness of who was using it or what they actually needed. The system had grown, but it hadn't scaled.
+            </p>
+          </div>
+        </div>
+
+        <div class="challenge-grid">
+          <div class="challenge-item">
+            <div class="challenge-num">01</div>
+            <h4>Diagnosis-locked architecture</h4>
+            <p>Every new cancer type required a new module. There was no shared structure, no unified logic — just accumulation.</p>
+          </div>
+          <div class="challenge-item">
+            <div class="challenge-num">02</div>
+            <h4>Fragmented navigation</h4>
+            <p>Users couldn't move fluidly between patient data, diagnostics, and treatments. Each section was its own island.</p>
+          </div>
+          <div class="challenge-item">
+            <div class="challenge-num">03</div>
+            <h4>No role awareness</h4>
+            <p>A nurse doing a handover and an administrator tracking outcomes were using the same interface — designed for neither.</p>
+          </div>
+          <div class="challenge-item">
+            <div class="challenge-num">04</div>
+            <h4>High cognitive load</h4>
+            <p>Too many clicks, too much noise, too little structure. Professionals were losing time — and in clinical care, time matters.</p>
+          </div>
+        </div>
+
+        <div style="margin-top:3rem;" class="cs-body-text">
+          <p>
+            IPÖ 2.0 was commissioned to fix all of this: build a single, unified platform that could handle any diagnosis, serve any clinical role, and grow without becoming harder to use.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════
+         02 — ROLE PRIORITIZATION
+    ═══════════════════════════════════════ -->
+    <section class="cs-section cs-section--cream">
+      <div class="cs-container">
+
+        <div class="cs-intro-split">
+          <div>
+            <div class="cs-section-label">03 — Role Prioritization</div>
+            <h2 class="cs-h2">The same system, three different <em>hierarchies</em></h2>
+          </div>
+          <div class="cs-body-text">
+            <p>
+              Before testing, we mapped what each role actually prioritised when using the system. Not what they said in a survey — but what they needed first, second, and third to do their job well. These priorities varied significantly across roles, and understanding them shaped every user testing session and every design decision that followed.
+            </p>
+          </div>
+        </div>
+
+        <div class="matrix-wrapper">
+          <table class="priority-matrix">
+            <thead>
+              <tr>
+                <th></th>
+                <th>
+                  <div class="role-th-inner">
+                    <div class="role-avatar role-avatar--doctor" aria-hidden="true">
+                      <!-- Doctor icon -->
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="7" r="4"/>
+                        <path d="M6 21v-2a6 6 0 0 1 6-6 6 6 0 0 1 6 6v2"/>
+                        <path d="M18 13v4M16 15h4" stroke-width="1.8"/>
+                      </svg>
+                    </div>
+                    Doctor
+                  </div>
+                </th>
+                <th>
+                  <div class="role-th-inner">
+                    <div class="role-avatar role-avatar--nurse" aria-hidden="true">
+                      <!-- Nurse icon -->
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="7" r="4"/>
+                        <path d="M6 21v-2a6 6 0 0 1 6-6 6 6 0 0 1 6 6v2"/>
+                        <path d="M12 14v3M10.5 15.5h3" stroke-width="1.8"/>
+                      </svg>
+                    </div>
+                    Nurse
+                  </div>
+                </th>
+                <th>
+                  <div class="role-th-inner">
+                    <div class="role-avatar role-avatar--admin" aria-hidden="true">
+                      <!-- Administrator icon -->
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="7" r="4"/>
+                        <path d="M6 21v-2a6 6 0 0 1 6-6 6 6 0 0 1 6 6v2"/>
+                        <rect x="14" y="14" width="5" height="5" rx="1" stroke-width="1.5"/>
+                      </svg>
+                    </div>
+                    Administrator
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Priority 1</td>
+                <td>
+                  <span class="priority-pill priority-pill--overview">
+                    <span class="priority-rank">①</span> Overview
+                  </span>
+                </td>
+                <td>
+                  <span class="priority-pill priority-pill--navigation">
+                    <span class="priority-rank">①</span> Navigation
+                  </span>
+                </td>
+                <td>
+                  <span class="priority-pill priority-pill--registration">
+                    <span class="priority-rank">①</span> Registration
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>Priority 2</td>
+                <td>
+                  <span class="priority-pill priority-pill--navigation">
+                    <span class="priority-rank">②</span> Navigation
+                  </span>
+                </td>
+                <td>
+                  <span class="priority-pill priority-pill--registration">
+                    <span class="priority-rank">②</span> Registration
+                  </span>
+                </td>
+                <td>
+                  <span class="priority-pill priority-pill--navigation">
+                    <span class="priority-rank">②</span> Navigation
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>Priority 3</td>
+                <td>
+                  <span class="priority-pill priority-pill--registration">
+                    <span class="priority-rank">③</span> Registration
+                  </span>
+                </td>
+                <td>
+                  <span class="priority-pill priority-pill--overview">
+                    <span class="priority-rank">③</span> Overview
+                  </span>
+                </td>
+                <td>
+                  <span class="priority-pill priority-pill--overview">
+                    <span class="priority-rank">③</span> Overview
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="matrix-note">
+          Priority ranking based on role-specific workflow analysis conducted prior to user testing. This matrix directly informed test scenarios and design focus areas.
+        </p>
+
+        <figure class="cs-figure" style="margin-top:2.5rem;">
+          <img
+            src="assets/images/ipo-priority-matrix.png"
+            alt="Prioritization matrix table with role icons showing priority rankings for Nurse, Doctor, and Administrator across Overview, Navigation, and Registration categories"
+          />
+          <figcaption>Prioritization matrix — role-based priority mapping used to structure user testing sessions</figcaption>
+        </figure>
+
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════
+         03 — USER NEEDS
+    ═══════════════════════════════════════ -->
+    <section class="cs-section cs-section--white">
+      <div class="cs-container">
+
+        <div class="cs-intro-split">
+          <div>
+            <div class="cs-section-label">04 — User Needs</div>
+            <h2 class="cs-h2">What each role actually <em>needed</em> from the system</h2>
+          </div>
+          <div class="cs-body-text">
+            <p>
+              Role-based priorities only tell half the story. We went deeper — mapping the specific functional and experiential needs behind each priority. What does "navigation" mean for a nurse doing a handover? What does "overview" mean for a doctor preparing for a patient meeting? The answers were different enough to design for separately.
+            </p>
+          </div>
+        </div>
+
+        <div class="role-cards">
+
+          <article class="role-card">
+            <div class="role-card-icon role-card-icon--nurse" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="7" r="4"/>
+                <path d="M6 21v-2a6 6 0 0 1 6-6 6 6 0 0 1 6 6v2"/>
+                <path d="M12 14v3M10.5 15.5h3" stroke-width="1.8"/>
+              </svg>
+            </div>
+            <div class="role-card-role">Nurse</div>
+            <h3>Smooth, fast, and trustworthy</h3>
+            <ul class="role-needs">
+              <li>Fluid navigation between patient records — no dead ends</li>
+              <li>Fast access to patient data, especially during handovers</li>
+              <li>Clear, unambiguous presentation of current status</li>
+              <li>Confidence that the data shown is up to date</li>
+              <li>Minimum number of clicks to complete routine tasks</li>
+            </ul>
+          </article>
+
+          <article class="role-card">
+            <div class="role-card-icon role-card-icon--doctor" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="7" r="4"/>
+                <path d="M6 21v-2a6 6 0 0 1 6-6 6 6 0 0 1 6 6v2"/>
+                <path d="M18 13v4M16 15h4" stroke-width="1.8"/>
+              </svg>
+            </div>
+            <div class="role-card-role">Doctor</div>
+            <h3>Structured, precise, clinical</h3>
+            <ul class="role-needs">
+              <li>A reliable overview to review before patient meetings</li>
+              <li>Fast, accurate data entry without distraction</li>
+              <li>Clinically relevant information — not administrative noise</li>
+              <li>Time-efficient workflows — every second counts in clinic</li>
+            </ul>
+          </article>
+
+          <article class="role-card">
+            <div class="role-card-icon role-card-icon--admin" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="7" r="4"/>
+                <path d="M6 21v-2a6 6 0 0 1 6-6 6 6 0 0 1 6 6v2"/>
+                <rect x="14" y="14" width="5" height="5" rx="1" stroke-width="1.5"/>
+              </svg>
+            </div>
+            <div class="role-card-role">Administrator</div>
+            <h3>Planned, trackable, strategic</h3>
+            <ul class="role-needs">
+              <li>Tools for capacity planning and resource allocation</li>
+              <li>Outcome tracking across patient cohorts</li>
+              <li>Trend analysis to support clinical and operational decisions</li>
+              <li>Data integrity to support eligibility assessment for studies</li>
+            </ul>
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════
+         04 — EFFECT MAPPING
+    ═══════════════════════════════════════ -->
+    <section class="cs-section cs-section--cream">
+      <div class="cs-container">
+
+        <div class="cs-intro-split">
+          <div>
+            <div class="cs-section-label">05 — Effect Mapping</div>
+            <h2 class="cs-h2">Aligning on outcomes before aligning on solutions</h2>
+          </div>
+          <div class="cs-body-text">
+            <p>
+              Before any user testing began, we created an effect map of IPÖ 1.0. The goal was not to audit what existed, but to surface what different stakeholders expected the system to achieve — and where those expectations diverged or depended on each other.
+            </p>
+            <p>
+              The exercise brought together operational leaders, clinical coordinators, and the product team. It clarified the system's intended value, mapped the motivations and dependencies behind each role, and gave us a shared vocabulary for the redesign. Without this, any design work would have been solving the wrong problem.
+            </p>
+          </div>
+        </div>
+
+        <figure class="cs-figure">
+          <img
+            src="assets/images/ipo-effect-map-v1.png"
+            alt="Effect mapping diagram for IPÖ 1.0 showing desired outcomes, motivations, role differences, dependencies, and involvement of operational leaders"
+          />
+          <figcaption>Effect map — IPÖ 1.0. Developed collaboratively with operational leaders and clinical stakeholders to establish shared understanding of system value and user motivation before redesign.</figcaption>
+        </figure>
+
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════
+         05 — UNDERSTANDING THE VARIABLE SYSTEM
+    ═══════════════════════════════════════ -->
+    <section class="cs-section cs-section--white">
+      <div class="cs-container">
+
+        <div class="cs-intro-split">
+          <div>
+            <div class="cs-section-label">06 — The Variable System</div>
+            <h2 class="cs-h2">The interface was only half the problem — <em>the data structure was the other half</em></h2>
+          </div>
+          <div class="cs-body-text">
+            <p>
+              The backend of IPÖ was delivered to us as an Excel document. Hundreds of variables. Each one carrying its own terminology, data type, input constraints, and dependencies. This was the raw material for the entire system — every field the user would ever see or touch mapped back to a row in that spreadsheet.
+            </p>
+            <p>
+              We couldn't design for users without first understanding this structure completely. So we read it, mapped it, and manually interpreted how each variable would translate into a UI component — what it looked like, how it behaved, when it appeared, and what it depended on.
+            </p>
+          </div>
+        </div>
+
+        <figure class="cs-figure">
+          <img
+            src="assets/images/ipo-excel-variables.png"
+            alt="Screenshot of the Excel variable sheet containing hundreds of backend variables with terminology, data types, input types, and dependency definitions for the IPÖ system"
+          />
+          <figcaption>The variable system delivered in Excel — each row defining a backend variable with its terminology, data structure, input type, and dependencies.</figcaption>
+        </figure>
+
+        <div class="cs-divider"></div>
+
+        <div class="cs-body-text">
+          <p>
+            The translation process followed a deliberate chain. Each step built on the last, and no step could be skipped. Understanding the variable system was not a technical task — it was the foundation for all design decisions that followed.
+          </p>
+        </div>
+
+        <div class="variable-flow" aria-label="Process chain: Variable System to Interactions">
+          <div class="variable-flow-step">Variable System</div>
+          <span class="variable-flow-arrow" aria-hidden="true">→</span>
+          <div class="variable-flow-step">Flowcharts</div>
+          <span class="variable-flow-arrow" aria-hidden="true">→</span>
+          <div class="variable-flow-step">Design</div>
+          <span class="variable-flow-arrow" aria-hidden="true">→</span>
+          <div class="variable-flow-step">Interactions</div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════
+         06 — FLOW MAPPING
+    ═══════════════════════════════════════ -->
+    <section class="cs-section cs-section--cream">
+      <div class="cs-container">
+
+        <div class="cs-intro-split">
+          <div>
+            <div class="cs-section-label">07 — Flow Mapping</div>
+            <h2 class="cs-h2">From backend logic to interface <em>behaviour</em></h2>
+          </div>
+          <div class="cs-body-text">
+            <p>
+              With the variable system understood, we began mapping flows. First on whiteboards — fast, exploratory, collaborative. We traced how a user would move through the system: what they'd see first, what decisions they'd face, what the system would need to know before showing the next step.
+            </p>
+            <p>
+              From those sessions we produced digital flowcharts — structured, referenceable, and directly connected to the variable definitions. These became the design's source of truth. Every screen, every interaction, every conditional state traced back to a flow that traced back to a variable.
+            </p>
+          </div>
+        </div>
+
+        <div class="cs-figure-grid">
+          <figure class="cs-figure" style="margin-top:0;">
+            <img
+              src="assets/images/ipo-flowchart-whiteboard.jpg"
+              alt="Whiteboard photo showing hand-drawn flow diagrams mapping user journeys through the IPÖ system, created during collaborative workshop sessions"
+            />
+            <figcaption>Whiteboard flows — exploratory mapping sessions with the team</figcaption>
+          </figure>
+          <figure class="cs-figure" style="margin-top:0;">
+            <img
+              src="assets/images/ipo-flowchart-digital.png"
+              alt="Digital flowchart showing structured user flow mapping for IPÖ 2.0, with conditional logic and variable-connected decision points"
+            />
+            <figcaption>Digital flowcharts — structured flows connected to the variable system</figcaption>
+          </figure>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════
+         07 — WIREFRAMES TO PRODUCTION
+    ═══════════════════════════════════════ -->
+    <section class="cs-section cs-section--white">
+      <div class="cs-container">
+
+        <div class="cs-intro-split">
+          <div>
+            <div class="cs-section-label">08 — Wireframes to Production</div>
+            <h2 class="cs-h2">Four stages, one continuous <em>thread of logic</em></h2>
+          </div>
+          <div class="cs-body-text">
+            <p>
+              The design progression moved in four distinct but connected stages. Each stage validated something specific — structure, logic, detail, or implementation — before the next began. Nothing was decorative. Every decision could be traced back to a user need, a variable, or a flow.
+            </p>
+          </div>
+        </div>
+
+        <div class="progression-grid">
+
+          <div>
+            <div class="progression-step-num">Stage 01</div>
+            <div class="progression-step-img">
+              <img
+                src="assets/images/ipo-wireframe-early.png"
+                alt="Early low-fidelity wireframe for IPÖ 2.0 showing structural concept and initial layout decisions"
+              />
+            </div>
+            <div class="progression-step-label">Early Wireframe</div>
+            <div class="progression-step-desc">Structural concept — where things live and why. Fast, disposable, and deliberately rough.</div>
+          </div>
+
+          <div>
+            <div class="progression-step-num">Stage 02</div>
+            <div class="progression-step-img">
+              <img
+                src="assets/images/ipo-wireframe-timeline.png"
+                alt="Structured timeline visualisation wireframe showing how patient data and treatment history is displayed chronologically in IPÖ 2.0"
+              />
+            </div>
+            <div class="progression-step-label">Timeline Logic</div>
+            <div class="progression-step-desc">Refinement of the temporal view — how patient history, treatments, and diagnostics read across time.</div>
+          </div>
+
+          <div>
+            <div class="progression-step-num">Stage 03</div>
+            <div class="progression-step-img">
+              <img
+                src="assets/images/ipo-prototype-hifi.png"
+                alt="High-fidelity interactive prototype of IPÖ 2.0 used in user testing sessions with clinical professionals"
+              />
+            </div>
+            <div class="progression-step-label">Hi-Fidelity Prototype</div>
+            <div class="progression-step-desc">Full visual resolution for user testing. Close enough to production to surface real friction.</div>
+          </div>
+
+          <div>
+            <div class="progression-step-num">Stage 04</div>
+            <div class="progression-step-img">
+              <img
+                src="assets/images/ipo-production.png"
+                alt="Final production screenshot of IPÖ 2.0 deployed in the Swedish cancer care system"
+              />
+            </div>
+            <div class="progression-step-label">Production</div>
+            <div class="progression-step-desc">The live implementation. Design decisions validated, backend variables mapped, flows realised.</div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════
+         08 — IMPACT & RESULTS
+    ═══════════════════════════════════════ -->
+    <section class="cs-section cs-section--warm">
+      <div class="cs-container">
+
+        <div class="cs-intro-split">
+          <div>
+            <div class="cs-section-label">09 — Impact &amp; Results</div>
+            <h2 class="cs-h2">What <em>changed</em></h2>
+          </div>
+          <div class="cs-body-text">
+            <p>
+              IPÖ 2.0 replaced a fragmented, diagnosis-locked system with a unified clinical platform. The outcome was not only a better interface — it was a fundamentally different relationship between the system and its users, and between the system and the organisation that needed to scale it.
+            </p>
+          </div>
+        </div>
+
+        <div class="impact-grid">
+
+          <div class="impact-item">
+            <div class="impact-item-marker"></div>
+            <h4>Diagnosis-independent architecture</h4>
+            <p>A single unified system now supports all cancer diagnoses without requiring separate modules. Adding a new diagnosis no longer means fragmenting the interface.</p>
+          </div>
+
+          <div class="impact-item">
+            <div class="impact-item-marker"></div>
+            <h4>Role-aware design</h4>
+            <p>Nurses, doctors, and administrators each encounter a system calibrated to their priorities. The same platform serves three genuinely different workflows.</p>
+          </div>
+
+          <div class="impact-item">
+            <div class="impact-item-marker"></div>
+            <h4>Reduced cognitive load</h4>
+            <p>Cleaner navigation, fewer steps, and structured information hierarchy meant clinical professionals could focus on patients — not on managing the interface.</p>
+          </div>
+
+          <div class="impact-item">
+            <div class="impact-item-marker"></div>
+            <h4>Modular, scalable architecture</h4>
+            <p>The new system was built to grow. New features, new diagnoses, new roles can be added without breaking what already exists.</p>
+          </div>
+
+          <div class="impact-item">
+            <div class="impact-item-marker"></div>
+            <h4>Backend-to-frontend clarity</h4>
+            <p>The translation from the variable system to UI logic was fully documented and traceable. Every design decision had a reason, and that reason could be pointed to in the data structure.</p>
+          </div>
+
+          <div class="impact-item">
+            <div class="impact-item-marker"></div>
+            <h4>Stakeholder alignment</h4>
+            <p>The effect mapping process brought operational leaders into the design conversation early, ensuring the system delivered value at every level — clinical, administrative, and strategic.</p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ─── PAGE FOOTER NAV ─── -->
+  <div class="cs-page-footer">
+    <div class="cs-container">
+      <div class="cs-page-footer-inner">
+        <a href="index.html#projects" class="cs-back-link">Back to projects</a>
+      </div>
     </div>
   </div>
 
@@ -49,5 +1396,6 @@
     <span class="footer-name">Angelos Chatziparasidis</span>
     <span class="footer-note">UX Designer &amp; Researcher &middot; Stockholm, Sweden</span>
   </footer>
+
 </body>
 </html>
