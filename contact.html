@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact – Angelos Chatziparasidis</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-logo">Angelos Chatziparasidis</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#projects">Projects</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="contact-page">
+    <div class="contact-info">
+      <p class="section-label">Get in touch</p>
+      <h2>Let's<br /><em>connect</em></h2>
+
+      <div class="contact-detail">
+        <p class="contact-detail-label">Email</p>
+        <a href="mailto:angeos@live.se">angeos@live.se</a>
+      </div>
+
+      <div class="contact-detail">
+        <p class="contact-detail-label">LinkedIn</p>
+        <a href="https://www.linkedin.com/in/angeloschatziparasidis/" target="_blank" rel="noopener noreferrer">
+          linkedin.com/in/angeloschatziparasidis
+        </a>
+      </div>
+
+      <div class="contact-detail">
+        <p class="contact-detail-label">Based in</p>
+        <span style="font-size:1rem;color:var(--text);font-weight:300;">Stockholm, Sweden</span>
+      </div>
+    </div>
+
+    <!-- Contact form using mailto — opens user's mail client with prefilled content.
+         To switch to Formspree later: replace action="mailto:..." with action="https://formspree.io/f/YOUR_FORM_ID"
+         and remove enctype + onsubmit, then add method="POST". -->
+    <div class="contact-form">
+      <p class="section-label" style="margin-bottom:1.5rem;">Send a message</p>
+      <form id="contactForm" onsubmit="handleSubmit(event)">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" placeholder="Your name" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="your@email.com" required />
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="What's on your mind?" required></textarea>
+        </div>
+        <button type="submit" class="btn-primary" style="width:100%;text-align:center;cursor:pointer;border:none;">
+          Send Message
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <span class="footer-name">Angelos Chatziparasidis</span>
+    <span class="footer-note">UX Designer &amp; Researcher &middot; Stockholm, Sweden</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
