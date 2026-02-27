@@ -49,7 +49,7 @@
 
     .cs-hero-grid {
       display: grid;
-      grid-template-columns: 1fr 260px;
+      grid-template-columns: 1fr 360px;
       gap: 5rem;
       align-items: end;
     }
@@ -624,6 +624,18 @@
     .cs-back-link::before { content: '←'; }
     .cs-back-link:hover { gap: 0.8rem; }
 
+    /* ─── HERO LOGO ─── */
+    .cs-hero-meta-logo {
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--blush);
+    }
+
+    .cs-hero-meta-logo img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
     /* ─── DESIGN APPROACH STEPS ─── */
     .approach-steps {
       display: grid;
@@ -741,9 +753,6 @@
         <div class="cs-hero-grid">
 
           <div class="cs-hero-left">
-            <div style="margin-bottom:2rem;">
-              <img src="assets/images/Project 2.png" alt="Regionalt Cancercentrum logotype" style="width:260px;max-width:100%;height:auto;object-fit:contain;" />
-            </div>
             <div class="cs-kicker">Healthcare UX · Case Study</div>
             <h1 class="cs-hero-title">
               Individual Patient<br /><em>Overview 2.0</em>
@@ -763,13 +772,16 @@
           </div>
 
           <div class="cs-hero-meta">
-            <div>
-              <div class="cs-meta-label">My Role</div>
-              <div class="cs-meta-value">UX Designer</div>
+            <div class="cs-hero-meta-logo">
+              <img src="assets/images/Project 2.png" alt="Regionalt Cancercentrum logotype" />
             </div>
             <div>
               <div class="cs-meta-label">Organisation</div>
               <div class="cs-meta-value">Regionalt Cancercentrum</div>
+            </div>
+            <div>
+              <div class="cs-meta-label">My Role</div>
+              <div class="cs-meta-value">UX Designer</div>
             </div>
             <div>
               <div class="cs-meta-label">Collaborators</div>
